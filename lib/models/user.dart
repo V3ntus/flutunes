@@ -1,8 +1,8 @@
 class UserModel {
   final String name;
-  final String serverId;
-  final String serverName;
-  final String primaryImageTag;
+  final String? serverId;
+  final String? serverName;
+  final String? primaryImageTag;
   final String id;
   final bool enableAutoLogin;
 

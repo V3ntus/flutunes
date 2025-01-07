@@ -31,6 +31,7 @@ void main() {
       test(
         'login returns a User model on success',
         () async {
+          // Arrange
           const testUserUUID = "5b9720dd-f1c6-4fe8-9de2-b7d746469529";
           const loginPath = "/Users/AuthenticateByName";
           const Map<String, dynamic> loginResult = {
@@ -46,7 +47,6 @@ void main() {
             "AccessToken": "ACCESS_TOKEN_TEST",
             "ServerId": "SERVER_ID_TEST",
           };
-
           when(mockDio.post(TEST_ROOT_URL + loginPath, data: anyNamed("data"))).thenAnswer(
             (_) async => Response(
               data: loginResult,
@@ -55,8 +55,12 @@ void main() {
             ),
           );
 
-          expect(await client.authenticateByName("", ""), isA<UserModel>());
-          expect((await client.authenticateByName("", "")).json, equals(loginResult["User"]));
+          // Act
+          final authResponse = await client.authenticateByName("", "");
+
+          // Assert
+          expect(authResponse, isA<UserModel>());
+          expect(authResponse.json, equals(loginResult["User"]));
           expect(client.accessToken, equals("ACCESS_TOKEN_TEST"));
         },
       );

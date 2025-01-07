@@ -29,6 +29,7 @@ class JellyfinClient {
         "Pw": password,
       },
     );
+
     final Map<String, dynamic> authResult = post.data;
 
     accessToken = authResult["AccessToken"]!;

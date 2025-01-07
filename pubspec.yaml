@@ -12,15 +12,17 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
-  http: ^1.2.2
+  shared_preferences: ^2.3.5
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   mockito: ^5.4.4
   build_runner: ^2.4.11
+  shared_preferences_platform_interface: ^2.4.1
 
 
 flutter:

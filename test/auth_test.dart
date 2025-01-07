@@ -22,7 +22,7 @@ void main() {
       setUp(() async {
         TestWidgetsFlutterBinding.ensureInitialized();
         SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.withData({
-          "SERVER_ROOT": TEST_ROOT_URL,
+          "SERVER_URL": TEST_ROOT_URL,
         });
         mockDio = MockMockDio();
         client = JellyfinClient(dio: mockDio);

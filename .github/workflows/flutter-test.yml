@@ -15,7 +15,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Set up flutter
-        uses: subosito/flutter-action@5d0c238a3ce3d3f8a05184a7d568c53cc0fce08c
+        uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
         with:
           channel: stable
           flutter-version-file: pubspec.yaml

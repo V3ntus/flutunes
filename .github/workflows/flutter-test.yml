@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Cache Flutter dependencies
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ubuntu-flutter
       - name: Set up flutter
         uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
         with:
@@ -21,7 +26,7 @@ jobs:
           flutter-version: 3.27.1
       - run: flutter pub get
       - name: Analyze Dart
-        uses: zgosalvez/github-actions-analyze-dart@bc72307ba08e59e62f4d6e5ae311cc464dc0f296
+        uses: zgosalvez/github-actions-analyze-dart@5d0c238a3ce3d3f8a05184a7d568c53cc0fce08c
         with:
           fail-on-warnings: true
       - name: Run Flutter tests

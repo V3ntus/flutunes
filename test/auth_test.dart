@@ -24,7 +24,8 @@ void main() {
 
       setUp(() async {
         TestWidgetsFlutterBinding.ensureInitialized();
-        SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.withData({
+        SharedPreferencesAsyncPlatform.instance =
+            InMemorySharedPreferencesAsync.withData({
           "SERVER_URL": TEST_ROOT_URL,
         });
         mockDio = MockMockDio();
@@ -50,7 +51,9 @@ void main() {
             "AccessToken": "ACCESS_TOKEN_TEST",
             "ServerId": "SERVER_ID_TEST",
           };
-          when(mockDio.requestUri(Uri.parse("$TEST_ROOT_URL$loginPath"), data: anyNamed("data"), options: anyNamed("options"))).thenAnswer(
+          when(mockDio.requestUri(Uri.parse("$TEST_ROOT_URL$loginPath"),
+                  data: anyNamed("data"), options: anyNamed("options")))
+              .thenAnswer(
             (Invocation real) async {
               if (real.namedArguments[Symbol("data")]["Pw"] == "incorrect") {
                 return Response(
@@ -68,7 +71,10 @@ void main() {
 
           // Act
           expect(client.http.currentUser, isNull);
-          expect(() async => await client.http.request("POST", Uri.parse(TEST_ROOT_URL)), throwsA(isA<StateError>()));
+          expect(
+              () async =>
+                  await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
+              throwsA(isA<StateError>()));
           final authResponse = await client.login("", "");
 
           // Assert

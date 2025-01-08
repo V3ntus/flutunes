@@ -18,13 +18,13 @@ class UserModel {
   }
 
   Map<String, dynamic> get json => {
-    "Name": name,
-    "ServerId": serverId,
-    "ServerName": serverName,
-    "PrimaryImageTag": primaryImageTag,
-    "Id": id,
-    "EnableAutoLogin": enableAutoLogin,
-  };
+        "Name": name,
+        "ServerId": serverId,
+        "ServerName": serverName,
+        "PrimaryImageTag": primaryImageTag,
+        "Id": id,
+        "EnableAutoLogin": enableAutoLogin,
+      };
 
   UserModel({
     required this.name,

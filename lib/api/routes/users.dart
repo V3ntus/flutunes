@@ -13,11 +13,14 @@ class Users extends BaseRoute {
   Users(super.client);
 
   Future<UserModel> authenticateByName(String username, String password) async {
-    client.currentUser = UserModel(name: username, id: "", enableAutoLogin: false);
-    final Response response = await client.request("POST", (await client.baseUri()).replace(path: "/Users/AuthenticateByName"), json: {
-      "Username": username,
-      "Pw": password,
-    });
+    client.currentUser =
+        UserModel(name: username, id: "", enableAutoLogin: false);
+    final Response response = await client.request("POST",
+        (await client.baseUri()).replace(path: "/Users/AuthenticateByName"),
+        json: {
+          "Username": username,
+          "Pw": password,
+        });
 
     if (response.statusCode == 401) {
       client.currentUser = null;

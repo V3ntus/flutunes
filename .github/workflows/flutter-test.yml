@@ -39,6 +39,10 @@ jobs:
   coverage_report:
     name: "Generate coverage report"
     needs: test
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo

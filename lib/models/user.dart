@@ -28,9 +28,9 @@ class UserModel {
 
   UserModel({
     required this.name,
-    required this.serverId,
-    required this.serverName,
-    required this.primaryImageTag,
+    this.serverId,
+    this.serverName,
+    this.primaryImageTag,
     required this.id,
     required this.enableAutoLogin,
   });

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutunes/api/constants.dart';
+import 'package:flutunes/api/routes/system.dart';
 import 'package:flutunes/api/routes/users.dart';
 import 'package:flutunes/models/user.dart';
 import 'package:flutunes/shared_preferences.dart';
@@ -12,9 +13,11 @@ class Http {
   String? accessToken;
   UserModel? currentUser;
 
+  late final System system;
   late final Users users;
 
   Http({Dio? dio}) : dio = dio ?? Dio() {
+    system = System(this);
     users = Users(this);
   }
 

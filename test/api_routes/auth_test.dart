@@ -18,10 +18,17 @@ class MockDio extends Mock implements Dio {}
 @GenerateMocks([MockDio])
 void main() {
   group(
-    "auth",
+    "Users API route",
     () {
-      late final JellyfinClient client;
-      late final MockMockDio mockDio;
+      late JellyfinClient client;
+      late MockMockDio mockDio;
+
+      test('PreferenceKeys toString == key', () {
+        expect(
+          PreferenceKeys.values[0].toString(),
+          equals(PreferenceKeys.values[0].key),
+        );
+      });
 
       setUp(() async {
         TestWidgetsFlutterBinding.ensureInitialized();

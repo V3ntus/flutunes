@@ -4,8 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum PreferenceKeys {
   SERVER_URL(String, "SERVER_URL"),
   ACCESS_TOKEN(String, "ACCESS_TOKEN"),
-  LAST_LOGGED_IN_USERNAME(String, "LAST_LOGGED_IN_USERNAME"),
-  SHOULD_AUTO_LOGIN(bool, "SHOULD_AUTO_LOGIN");
+  USERNAME(String, "USERNAME"),
+  USER_ID(String, "USER_ID"),
+  SHOULD_AUTO_LOGIN(bool, "SHOULD_AUTO_LOGIN"),
+  RECENT_JELLYFIN_SERVERS(String, "RECENT_JELLYFIN_SERVERS");
 
   final Type type;
   final String key;

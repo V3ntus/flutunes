@@ -52,9 +52,10 @@ class _LoginModalState extends State<LoginModal> {
         isLoggingIn = false;
         loginFailedMessage = "Server error";
       });
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("${error.message}")));
+      }
     }
 
     return true;
@@ -178,9 +179,10 @@ class _LoginScreenState extends State<LoginScreen> {
         return true;
       }
     } on DioException catch (error) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("${error.message}")));
+      }
     }
     return false;
   }

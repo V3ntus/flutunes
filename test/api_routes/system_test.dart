@@ -22,7 +22,8 @@ void main() {
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
-      SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.withData(
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.withData(
         {
           PreferenceKeys.SERVER_URL.key: TEST_ROOT_URL,
         },
@@ -75,7 +76,9 @@ void main() {
           "SupportsLibraryMonitor": true,
           "WebSocketPortNumber": 0,
         };
-        when(mockDio.requestUri(Uri.parse("$TEST_ROOT_URL$systemInfoPath"), options: anyNamed("options"))).thenAnswer(
+        when(mockDio.requestUri(Uri.parse("$TEST_ROOT_URL$systemInfoPath"),
+                options: anyNamed("options")))
+            .thenAnswer(
           (_) async => Response(
             data: systemInfoResult,
             requestOptions: RequestOptions(path: systemInfoPath),

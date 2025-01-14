@@ -7,7 +7,8 @@ class JellyfinClient {
 
   JellyfinClient({Http? http}) : http = http ?? Http();
 
-  Future<UserModel> login(String serverUrl, String username, String password) async {
+  Future<UserModel> login(
+      String serverUrl, String username, String password) async {
     await asyncPrefs.setString(PreferenceKeys.SERVER_URL.key, serverUrl);
     return http.users.authenticateByName(username, password);
   }

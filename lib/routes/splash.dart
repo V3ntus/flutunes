@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) context.go("/login");
     }
 
-    String? accessToken = await asyncPrefs.getString(PreferenceKeys.ACCESS_TOKEN.key);
+    String? accessToken =
+        await asyncPrefs.getString(PreferenceKeys.ACCESS_TOKEN.key);
     if (await asyncPrefs.getString(PreferenceKeys.SERVER_URL.key) == null) {
       gotoLogin();
     } else if (accessToken == null) {
@@ -33,17 +34,22 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       final username = await asyncPrefs.getString(PreferenceKeys.USERNAME.key);
       final userId = await asyncPrefs.getString(PreferenceKeys.USER_ID.key);
-      final enableAutoLogin = await asyncPrefs.getBool(PreferenceKeys.SHOULD_AUTO_LOGIN.key);
+      final enableAutoLogin =
+          await asyncPrefs.getBool(PreferenceKeys.SHOULD_AUTO_LOGIN.key);
 
       if ([username, userId, enableAutoLogin].every((e) => e != null)) {
         if (mounted) {
-          Provider.of<JellyfinClient>(context, listen: false).http.currentUser = UserModel(
+          Provider.of<JellyfinClient>(context, listen: false).http.currentUser =
+              UserModel(
             name: username!,
             id: userId!,
             enableAutoLogin: enableAutoLogin!,
           );
           try {
-            await Provider.of<JellyfinClient>(context, listen: false).http.users.me();
+            await Provider.of<JellyfinClient>(context, listen: false)
+                .http
+                .users
+                .me();
             if (mounted) context.go("/home");
           } on DioException {
             gotoLogin();

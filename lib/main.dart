@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutunes/api/client.dart';
+import 'package:flutunes/routes/home.dart';
 import 'package:flutunes/routes/login.dart';
 import 'package:flutunes/routes/splash.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,10 @@ final _router = GoRouter(
     GoRoute(
       path: "/login",
       builder: (_, __) => LoginScreen(),
+    ),
+    GoRoute(
+      path: "/home",
+      builder: (_, __) => Home(),
     ),
     GoRoute(
       path: "/",

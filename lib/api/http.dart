@@ -21,7 +21,9 @@ class Http {
 
   Future<Uri> baseUri() async {
     // TODO refactor to not call asyncPrefs all the time
-    return Uri.parse(await asyncPrefs.getString(PreferenceKeys.SERVER_URL.key) ?? TEST_ROOT_URL);
+    return Uri.parse(
+        await asyncPrefs.getString(PreferenceKeys.SERVER_URL.key) ??
+            TEST_ROOT_URL);
   }
 
   static Future<String> _getUniqueDeviceId(String username) async {

@@ -14,7 +14,8 @@ class Users extends BaseRoute {
   Users(super.client);
 
   Future<UserModel> authenticateByName(String username, String password) async {
-    client.currentUser = UserModel(name: username, id: "", enableAutoLogin: false);
+    client.currentUser =
+        UserModel(name: username, id: "", enableAutoLogin: false);
     try {
       final Response response = await client.request(
         "POST",
@@ -25,17 +26,22 @@ class Users extends BaseRoute {
         },
       );
       client.accessToken = response.data["AccessToken"];
-      await asyncPrefs.setString(PreferenceKeys.ACCESS_TOKEN.key, client.accessToken!);
+      await asyncPrefs.setString(
+          PreferenceKeys.ACCESS_TOKEN.key, client.accessToken!);
 
       final authUser = UserModel.fromJson(response.data["User"]);
       await asyncPrefs.setString(PreferenceKeys.USERNAME.key, authUser.name);
       await asyncPrefs.setString(PreferenceKeys.USER_ID.key, authUser.id);
-      await asyncPrefs.setBool(PreferenceKeys.SHOULD_AUTO_LOGIN.key, authUser.enableAutoLogin);
+      await asyncPrefs.setBool(
+          PreferenceKeys.SHOULD_AUTO_LOGIN.key, authUser.enableAutoLogin);
 
       client.currentUser = authUser;
       return authUser;
     } on DioException catch (error) {
-      if (error.response != null && (error.response!.statusCode == 401 || (error.response!.data is Map && error.response!.data["AccessToken"] == null))) {
+      if (error.response != null &&
+          (error.response!.statusCode == 401 ||
+              (error.response!.data is Map &&
+                  error.response!.data["AccessToken"] == null))) {
         client.currentUser = null;
         throw IncorrectCredentialsError();
       }

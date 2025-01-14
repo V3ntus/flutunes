@@ -32,7 +32,8 @@ void main() {
 
       setUp(() async {
         TestWidgetsFlutterBinding.ensureInitialized();
-        SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.withData(
+        SharedPreferencesAsyncPlatform.instance =
+            InMemorySharedPreferencesAsync.withData(
           {
             PreferenceKeys.SERVER_URL.key: TEST_ROOT_URL,
           },
@@ -83,7 +84,8 @@ void main() {
           // Act
           expect(client.http.currentUser, isNull);
           expect(
-            () async => await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
+            () async =>
+                await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
             throwsA(isA<StateError>()),
           );
           final authResponse = await client.login(TEST_ROOT_URL, "", "");

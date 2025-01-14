@@ -27,8 +27,7 @@ class _LoginModalState extends State<LoginModal> {
     });
 
     try {
-      final user =
-          await Provider.of<JellyfinClient>(context, listen: false).login(
+      final user = await Provider.of<JellyfinClient>(context, listen: false).login(
         widget.serverName.toString(),
         _usernameController.text,
         _passwordController.text,
@@ -39,8 +38,7 @@ class _LoginModalState extends State<LoginModal> {
       });
       if (mounted) {
         context.pop();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Logged in as ${user.name}")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Logged in as ${user.name}")));
       }
     } on IncorrectCredentialsError {
       setState(() {
@@ -52,9 +50,9 @@ class _LoginModalState extends State<LoginModal> {
         isLoggingIn = false;
         loginFailedMessage = "Server error";
       });
-      if (mounted)
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("${error.message}")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${error.message}")));
+      }
     }
 
     return true;
@@ -128,15 +126,11 @@ class _LoginModalState extends State<LoginModal> {
                   },
                   label: Text("Sign in"),
                   icon: Icon(Icons.login),
-                  backgroundColor:
-                      Theme.of(context).buttonTheme.colorScheme?.primary,
-                  foregroundColor:
-                      Theme.of(context).buttonTheme.colorScheme?.onPrimary,
+                  backgroundColor: Theme.of(context).buttonTheme.colorScheme?.primary,
+                  foregroundColor: Theme.of(context).buttonTheme.colorScheme?.onPrimary,
                 ),
                 secondChild: LinearProgressIndicator(),
-                crossFadeState: isLoggingIn
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
+                crossFadeState: isLoggingIn ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 duration: Duration(milliseconds: 250),
                 firstCurve: Curves.easeInCubic,
                 secondCurve: Curves.easeInCubic,
@@ -163,24 +157,18 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isChecking = false;
 
   Future<bool> checkServer() async {
-    if (!RegExp(r"https?://[\w.]+\.(?:[A-Za-z]+)?(?::\d{1,5})?/?")
-        .hasMatch(_serverController.text)) {
+    if (!RegExp(r"https?://[\w.]+\.(?:[A-Za-z]+)?(?::\d{1,5})?/?").hasMatch(_serverController.text)) {
       return false;
     }
     try {
-      final response = await Provider.of<JellyfinClient>(context, listen: false)
-          .http
-          .dio
-          .request(_serverController.text);
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! <= 399) {
+      final response = await Provider.of<JellyfinClient>(context, listen: false).http.dio.request(_serverController.text);
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! <= 399) {
         return true;
       }
     } on DioException catch (error) {
-      if (mounted)
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("${error.message}")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${error.message}")));
+      }
     }
     return false;
   }
@@ -236,27 +224,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 firstCurve: Curves.easeInCubic,
                 secondCurve: Curves.easeInCubic,
                 sizeCurve: Curves.easeInCubic,
-                crossFadeState: isChecking
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
+                crossFadeState: isChecking ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 duration: Duration(milliseconds: 250),
                 firstChild: Flex(
                   spacing: 8,
                   direction: Axis.vertical,
                   children: [
                     TextField(
-                      onSubmitted: (_) =>
-                          _serverController.text.isEmpty ? null : serverOnTap(),
+                      onSubmitted: (_) => _serverController.text.isEmpty ? null : serverOnTap(),
                       decoration: InputDecoration(
                         labelText: "Server",
                         hintText: "http://my.jellyfin.com:8096",
-                        errorText: isServerNameValid
-                            ? null
-                            : "The server name is invalid",
+                        errorText: isServerNameValid ? null : "The server name is invalid",
                         suffixIcon: IconButton(
-                          onPressed: () => _serverController.text.isEmpty
-                              ? null
-                              : serverOnTap(),
+                          onPressed: () => _serverController.text.isEmpty ? null : serverOnTap(),
                           icon: Icon(Icons.arrow_circle_right),
                         ),
                       ),

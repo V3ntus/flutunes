@@ -33,7 +33,6 @@ class App extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Flutunes',
         theme: ThemeData.dark(useMaterial3: true).copyWith(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           inputDecorationTheme: InputDecorationTheme(
             contentPadding: EdgeInsets.all(20),
             border: OutlineInputBorder(

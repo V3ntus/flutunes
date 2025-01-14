@@ -84,10 +84,29 @@ void main() {
         );
 
         // Act
-        await client.login("", "");
+        await client.login(TEST_ROOT_URL, "", "");
         final SystemInfoModel response = await client.http.system.info();
 
         // Assert
+        expect(
+          response,
+          equals(
+            SystemInfoModel(
+              localAddress: "string",
+              serverName: "string",
+              version: "string",
+              productName: "string",
+              id: "string",
+              startupWizardCompleted: true,
+              packageName: "string",
+              hasPendingRestart: true,
+              isShuttingDown: true,
+              supportsLibraryMonitor: true,
+              webSocketPortNumber: 0,
+            ),
+          ),
+        );
+        expect(response.localAddress, equals(systemInfoResult["Result"]));
         expect(
           () => SystemInfoModel(
             hasPendingRestart: false,
@@ -95,7 +114,9 @@ void main() {
             supportsLibraryMonitor: false,
             webSocketPortNumber: 0,
           ).json,
-          throwsA(isA<UnimplementedError>()),
+          throwsA(
+            isA<UnimplementedError>(),
+          ),
         );
       },
     );

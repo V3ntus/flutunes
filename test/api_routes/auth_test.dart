@@ -86,7 +86,7 @@ void main() {
             () async => await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
             throwsA(isA<StateError>()),
           );
-          final authResponse = await client.login("", "");
+          final authResponse = await client.login(TEST_ROOT_URL, "", "");
 
           // Assert
           expect(authResponse, isA<UserModel>());
@@ -95,7 +95,7 @@ void main() {
           expect(client.http.currentUser, isNotNull);
 
           expect(
-            () async => await client.login("", "incorrect").then(
+            () async => await client.login(TEST_ROOT_URL, "", "incorrect").then(
                   (u) async => expect(client.http.currentUser, isNull),
                 ),
             throwsA(isA<IncorrectCredentialsError>()),

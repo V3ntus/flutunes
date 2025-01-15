@@ -1,4 +1,6 @@
-class UserModel {
+import 'package:flutunes/models/_base.dart';
+
+class UserModel extends BaseModel {
   final String name;
   final String? serverId;
   final String? serverName;
@@ -17,6 +19,7 @@ class UserModel {
     );
   }
 
+  @override
   Map<String, dynamic> get json => {
         "Name": name,
         "ServerId": serverId,

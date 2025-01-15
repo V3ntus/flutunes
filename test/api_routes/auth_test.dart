@@ -5,6 +5,7 @@ import 'package:flutunes/api/constants.dart';
 import 'package:flutunes/api/http.dart';
 import 'package:flutunes/api/routes/users.dart';
 import 'package:flutunes/models/user.dart';
+import 'package:flutunes/shared_preferences.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
@@ -17,17 +18,26 @@ class MockDio extends Mock implements Dio {}
 @GenerateMocks([MockDio])
 void main() {
   group(
-    "auth",
+    "Users API route",
     () {
-      late final JellyfinClient client;
-      late final MockMockDio mockDio;
+      late JellyfinClient client;
+      late MockMockDio mockDio;
+
+      test('PreferenceKeys toString == key', () {
+        expect(
+          PreferenceKeys.values[0].toString(),
+          equals(PreferenceKeys.values[0].key),
+        );
+      });
 
       setUp(() async {
         TestWidgetsFlutterBinding.ensureInitialized();
         SharedPreferencesAsyncPlatform.instance =
-            InMemorySharedPreferencesAsync.withData({
-          "SERVER_URL": TEST_ROOT_URL,
-        });
+            InMemorySharedPreferencesAsync.withData(
+          {
+            PreferenceKeys.SERVER_URL.key: TEST_ROOT_URL,
+          },
+        );
         mockDio = MockMockDio();
         client = JellyfinClient(http: Http(dio: mockDio));
       });
@@ -51,9 +61,11 @@ void main() {
             "AccessToken": "ACCESS_TOKEN_TEST",
             "ServerId": "SERVER_ID_TEST",
           };
-          when(mockDio.requestUri(Uri.parse("$TEST_ROOT_URL$loginPath"),
-                  data: anyNamed("data"), options: anyNamed("options")))
-              .thenAnswer(
+          when(mockDio.requestUri(
+            Uri.parse("$TEST_ROOT_URL$loginPath"),
+            data: anyNamed("data"),
+            options: anyNamed("options"),
+          )).thenAnswer(
             (Invocation real) async {
               if (real.namedArguments[Symbol("data")]["Pw"] == "incorrect") {
                 return Response(
@@ -72,10 +84,11 @@ void main() {
           // Act
           expect(client.http.currentUser, isNull);
           expect(
-              () async =>
-                  await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
-              throwsA(isA<StateError>()));
-          final authResponse = await client.login("", "");
+            () async =>
+                await client.http.request("POST", Uri.parse(TEST_ROOT_URL)),
+            throwsA(isA<StateError>()),
+          );
+          final authResponse = await client.login(TEST_ROOT_URL, "", "");
 
           // Assert
           expect(authResponse, isA<UserModel>());
@@ -84,7 +97,7 @@ void main() {
           expect(client.http.currentUser, isNotNull);
 
           expect(
-            () async => await client.login("", "incorrect").then(
+            () async => await client.login(TEST_ROOT_URL, "", "incorrect").then(
                   (u) async => expect(client.http.currentUser, isNull),
                 ),
             throwsA(isA<IncorrectCredentialsError>()),

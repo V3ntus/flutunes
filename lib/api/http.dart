@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutunes/api/constants.dart';
+import 'package:flutunes/api/routes/system.dart';
 import 'package:flutunes/api/routes/users.dart';
 import 'package:flutunes/models/user.dart';
 import 'package:flutunes/shared_preferences.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:uuid/uuid.dart';
 
 class Http {
@@ -12,29 +11,26 @@ class Http {
   String? accessToken;
   UserModel? currentUser;
 
+  late final System system;
   late final Users users;
 
   Http({Dio? dio}) : dio = dio ?? Dio() {
+    system = System(this);
     users = Users(this);
   }
 
   Future<Uri> baseUri() async {
     // TODO refactor to not call asyncPrefs all the time
-    return Uri.parse(await asyncPrefs.getString("SERVER_URL") ?? TEST_ROOT_URL);
+    return Uri.parse(
+        await asyncPrefs.getString(PreferenceKeys.SERVER_URL.key) ??
+            TEST_ROOT_URL);
   }
 
   static Future<String> _getUniqueDeviceId(String username) async {
     final String? deviceId = await asyncPrefs.getString("DEVICE_ID");
     if (deviceId == null) {
-      String? realDeviceId = "12345";
-      try {
-        realDeviceId = await PlatformDeviceId.getDeviceId;
-      } on MissingPluginException {
-        // Likely coming from test mode, do nothing
-      }
-
-      String newDeviceId = "${realDeviceId ?? Uuid().v4()}-$username";
-      await asyncPrefs.setString("DEVICE_ID", newDeviceId);
+      String newDeviceId = "${Uuid().v4()}-$username";
+      await asyncPrefs.setString("DEVICE_ID", newDeviceId.hashCode.toString());
       return newDeviceId.hashCode.toString();
     }
     return deviceId.hashCode.toString();
